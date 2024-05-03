@@ -8,13 +8,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: pseudoscience-bot
+    container_name: atis
     restart: unless-stopped
     environment:
       DISCORD_TOKEN: ${DISCORD_TOKEN}
-      PACKWIZ_REPO_PATH: /home/appuser/pseudoscience-modpack
+      PACKWIZ_REPO_PATH: /home/appuser/unnamed-modpack
       DB_PATH: /db
-      RUST_LOG: warn,pseudoscience_bot=debug
+      RUST_LOG: warn,atis=debug
     volumes:
       - ./sled_db:/db
       - home:/home/appuser

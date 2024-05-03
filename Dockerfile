@@ -27,7 +27,7 @@ RUN useradd -m -u 1000 -s /bin/sh appuser \
     && mkdir -p /data \
     && chown -R appuser /data
 
-COPY --from=builder /usr/local/cargo/bin/pseudoscience-bot /usr/local/bin/pseudoscience-bot
+COPY --from=builder /usr/local/cargo/bin/atis /usr/local/bin/atis
 COPY --from=packwiz /go/bin/packwiz /usr/local/bin/packwiz
 
 USER appuser
@@ -40,4 +40,4 @@ VOLUME ["/data"]
 VOLUME ["/db"]
 VOLUME ["/home/appuser"]
 
-CMD ["pseudoscience-bot"]
+CMD ["atis"]

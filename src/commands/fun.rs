@@ -15,7 +15,7 @@ pub async fn setyawn(
 ) -> Result<(), Error> {
     let tree = &ctx.data().tree;
 
-    match tree.insert(format!("--yawn-{}", ctx.author().id.0), yawn.as_str()) {
+    match tree.insert(format!("--yawn-{}", ctx.author().id), yawn.as_str()) {
         Ok(_) => say!(ctx, "Yawn set"),
         Err(e) => {
             warn!("Error inserting yawn into database: {:?}", e);
@@ -31,7 +31,7 @@ pub async fn setyawn(
 pub async fn yawn(ctx: Context<'_>) -> Result<(), Error> {
     let tree = &ctx.data().tree;
 
-    match tree.get(format!("--yawn-{}", ctx.author().id.0)) {
+    match tree.get(format!("--yawn-{}", ctx.author().id)) {
         Ok(Some(response)) => {
             let message = from_utf8(&response).unwrap_or_else(|e| {
                 warn!("Error converting yawn to string: {:?}", e);
@@ -61,7 +61,7 @@ async fn check(ctx: Context<'_>) -> Result<bool, Error> {
     for role in roles {
         if let Ok(b) = ctx
             .author()
-            .has_role(&ctx, ctx.guild_id().unwrap().0, role)
+            .has_role(&ctx, ctx.guild_id().unwrap(), role)
             .await
         {
             if b {

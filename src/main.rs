@@ -10,6 +10,7 @@ use anyhow::Error;
 use dotenv::dotenv;
 use log::debug;
 use poise::serenity_prelude::{GatewayIntents, UserId};
+use serenity::all::ClientBuilder;
 use std::collections::HashSet;
 use std::env;
 
@@ -44,7 +45,6 @@ async fn main() {
                 commands::custom::rmalias(),
                 commands::custom::rmcommand(),
                 commands::custom::setalias(),
-                commands::dev::register(),
                 commands::fun::yawn(),
                 commands::fun::setyawn(),
                 commands::packwiz::packwiz(),
@@ -64,8 +64,6 @@ async fn main() {
             },
             owners: {
                 let ids = [
-                    // khaoslatet
-                    UserId::from(702874912955695139),
                     // pixelagent007
                     UserId::from(487247155741065229),
                 ];
@@ -73,8 +71,6 @@ async fn main() {
             },
             ..Default::default()
         })
-        .token(token)
-        .intents(GatewayIntents::non_privileged() | GatewayIntents::MESSAGE_CONTENT)
         .setup(|_ctx, _ready, _framework| {
             Box::pin(async move {
                 // poise::builtins::register_globally(ctx, &framework.options().commands).await?;
@@ -84,7 +80,15 @@ async fn main() {
                     }),
                 })
             })
-        });
+        })
+        .build();
 
-    framework.run().await.unwrap();
+    let client = ClientBuilder::new(
+        token,
+        GatewayIntents::non_privileged() | GatewayIntents::MESSAGE_CONTENT,
+    )
+    .framework(framework)
+    .await;
+
+    client.unwrap().start().await.unwrap();
 }

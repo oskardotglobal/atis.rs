@@ -17,7 +17,7 @@ pub async fn bash(
     command: String,
 ) -> Result<(), Error> {
     // pixelagent007
-    if ctx.author().id.0 != 487247155741065229 {
+    if ctx.author().id != 487247155741065229 {
         say!(ctx, "Go away gooberoo, this is dangerous.");
 
         return Ok(());

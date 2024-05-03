@@ -21,7 +21,7 @@ pub async fn setcommand(
         .options
         .commands
         .iter()
-        .any(|c| c.aliases.contains(&name.as_str()) || c.name == name)
+        .any(|c| c.aliases.contains(&name) || c.name == name)
     {
         say!(ctx, "Invalid name");
         return Ok(());
@@ -52,7 +52,7 @@ pub async fn setalias(
         .options
         .commands
         .iter()
-        .any(|c| c.aliases.contains(&name.as_str()) || c.name == name)
+        .any(|c| c.aliases.contains(&name) || c.name == name)
     {
         say!(ctx, "Invalid name");
         return Ok(());
