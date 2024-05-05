@@ -1,3 +1,5 @@
+use crate::Context;
+use anyhow::Error;
 use log::{debug, error, warn};
 use std::fmt::Debug;
 use std::process::exit;
@@ -105,4 +107,21 @@ macro_rules! check_output {
             Err(_) => $crate::say!($ctx, "Failed to {} - command execution failed.", $action),
         };
     }};
+}
+
+pub async fn check_for_any_role(ctx: Context<'_>, roles: Vec<u64>) -> Result<bool, Error> {
+    for role in roles {
+        if ctx
+            .author()
+            .has_role(&ctx, ctx.guild_id().unwrap(), role)
+            .await
+            .unwrap_or(false)
+        {
+            return Ok(true);
+        }
+    }
+
+    say!(ctx, "Thou art not worthy of this command, peasant.");
+
+    Ok(false)
 }

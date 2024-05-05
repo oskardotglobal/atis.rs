@@ -1,3 +1,4 @@
+use crate::utils::check_for_any_role;
 use crate::{say, Context};
 use anyhow::Error;
 use log::warn;
@@ -51,26 +52,18 @@ pub async fn yawn(ctx: Context<'_>) -> Result<(), Error> {
 }
 
 async fn check(ctx: Context<'_>) -> Result<bool, Error> {
-    // member2, member1, Khaos
-    let roles = [
-        1145786846404677662,
-        1126619331007107143,
-        1145786499934199932,
-    ];
-
-    for role in roles {
-        if let Ok(b) = ctx
-            .author()
-            .has_role(&ctx, ctx.guild_id().unwrap(), role)
-            .await
-        {
-            if b {
-                return Ok(b);
-            }
-        }
-    }
-
-    say!(ctx, "Thou art not worthy of this command, peasant.");
-
-    Ok(false)
+    check_for_any_role(
+        ctx,
+        vec![
+            945886621931286538,  // Booster
+            933819407707291698,  // Mod
+            1009504345055830097, // Origins Developer
+            984130473913622549,  // Artist
+            1015637432873525329, // Mod Developer
+            1072249811048341545, // Admin
+            906816241052811325,  // Nightmare
+            933819147362648115,  // Brightmare
+        ],
+    )
+    .await
 }

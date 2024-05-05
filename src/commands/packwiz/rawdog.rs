@@ -3,13 +3,14 @@ use std::process::Command;
 
 use anyhow::Error;
 
+use crate::commands::packwiz::check_for_admin;
 use crate::commands::packwiz::help::{help_impl, HELP_SUBCOMMANDS};
 use crate::utils::fatal;
 use crate::{say, Context};
 
 const DISALLOWED_SUBCOMMANDS: [&str; 4] = ["init", "completion", "utils", "serve"];
 
-#[poise::command(slash_command, prefix_command, owners_only)]
+#[poise::command(slash_command, prefix_command, check = "check_for_admin")]
 pub(crate) async fn rawdog(
     ctx: Context<'_>,
     #[description = "Arguments to pass to packwiz directly"]

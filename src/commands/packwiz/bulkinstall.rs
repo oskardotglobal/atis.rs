@@ -1,8 +1,9 @@
 use anyhow::Error;
 
+use crate::commands::packwiz::check_for_admin;
 use crate::{check_output, Context};
 
-#[poise::command(slash_command, prefix_command, owners_only)]
+#[poise::command(slash_command, prefix_command, check = "check_for_admin")]
 pub(crate) async fn bulkinstall(
     ctx: Context<'_>,
     #[description = "URLs of mods to install, one per line"]

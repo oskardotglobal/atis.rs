@@ -1,3 +1,4 @@
+use crate::commands::packwiz::check_for_admin;
 use crate::{say, Context};
 use anyhow::Error;
 
@@ -42,7 +43,7 @@ Use "packwiz [command] --help" for more information about a command.
 ```
 "###;
 
-#[poise::command(slash_command, prefix_command, owners_only)]
+#[poise::command(slash_command, prefix_command, check = "check_for_admin")]
 pub(crate) async fn help(ctx: Context<'_>) -> Result<(), Error> {
     help_impl(ctx).await
 }

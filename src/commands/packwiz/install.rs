@@ -1,3 +1,4 @@
+use crate::commands::packwiz::check_for_admin;
 use crate::{check_output, say, Context};
 use anyhow::Error;
 
@@ -11,7 +12,7 @@ enum ModSource {
     Url,
 }
 
-#[poise::command(slash_command, prefix_command, owners_only)]
+#[poise::command(slash_command, prefix_command, check = "check_for_admin")]
 pub(crate) async fn install(
     ctx: Context<'_>,
     #[description = "The mod source. Required for non-URLs"] source: Option<ModSource>,

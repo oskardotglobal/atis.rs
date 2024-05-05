@@ -1,5 +1,6 @@
 use anyhow::Error;
 
+use crate::utils::check_for_any_role;
 use crate::Context;
 
 mod bulkinstall;
@@ -12,7 +13,7 @@ mod rawdog;
 #[poise::command(
     slash_command,
     prefix_command,
-    owners_only,
+    check = "check_for_admin",
     subcommands(
         "rawdog::rawdog",
         "bulkinstall::bulkinstall",
@@ -27,4 +28,16 @@ pub async fn packwiz(
     args: String,
 ) -> Result<(), Error> {
     rawdog::rawdog_impl(ctx, args).await
+}
+
+pub(crate) async fn check_for_admin(ctx: Context<'_>) -> Result<bool, Error> {
+    check_for_any_role(
+        ctx,
+        vec![
+            1072249811048341545, // Admin
+            906816241052811325,  // Nightmare
+            933819147362648115,  // Brightmare
+        ],
+    )
+    .await
 }
