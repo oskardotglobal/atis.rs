@@ -1,8 +1,9 @@
+use crate::commands::packwiz::check_for_admin;
 use crate::{check_output, say, Context};
 use anyhow::Error;
 
 /// Buttons to register slash commands
-#[poise::command(prefix_command, owners_only, hide_in_help)]
+#[poise::command(prefix_command, check = "check_for_admin", hide_in_help)]
 pub async fn register(ctx: Context<'_>) -> Result<(), Error> {
     poise::builtins::register_application_commands_buttons(ctx).await?;
     Ok(())
